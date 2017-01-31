@@ -1,0 +1,52 @@
+<Project>
+  <Name>Tetris 2Hour Challenge</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>General</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Shape</Name>
+        <Access>Public</Access>
+        <Location left="255" top="10" />
+        <Size width="234" height="230" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">float fallTime</Member>
+        <Member type="Field">Transform[] blocks</Member>
+        <Member type="Method">void Start()</Member>
+        <Member type="Method">public void CheckRow(int row)</Member>
+        <Member type="Method">public void Rotate()</Member>
+        <Member type="Method">public void CheckFall()</Member>
+        <Member type="Method">IEnumerator Fall(float time)</Member>
+        <Member type="Method">public void Down()</Member>
+        <Member type="Method">public void Move(int side)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Comment">
+        <Text>goes on the parents of which the childs all hold the Block class</Text>
+        <Location left="540" top="10" />
+        <Size width="142" height="116" />
+      </Entity>
+      <Entity type="Class">
+        <Name>TetrisManager</Name>
+        <Access>Public</Access>
+        <Location left="29" top="168" />
+        <Size width="164" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">Vector3[] spawnPos</Member>
+        <Member type="Method">void start()</Member>
+        <Member type="Method">void Update()</Member>
+        <Member type="Method">void Controls()</Member>
+        <Member type="Method">public void SpawnNew()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="0" second="2">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>
