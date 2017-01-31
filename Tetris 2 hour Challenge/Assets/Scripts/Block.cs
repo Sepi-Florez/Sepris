@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Block : MonoBehaviour {
-
+    public Animator anim;
 	// Use this for initialization
-	void Start () {
-		
+	void Awake () {
+        transform.GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame

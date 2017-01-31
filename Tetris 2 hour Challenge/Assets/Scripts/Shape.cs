@@ -3,11 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Shape : MonoBehaviour {
-    public TetrisManager manager;
+    public float moveTime;
     public float fallTime;
+    public float boostTime;
+
+    bool move = true;
+    bool bottom = false;
+    public bool square = false;
+
     public List<Transform> blocks = new List<Transform>();
+
+    Coroutine fall;
+
 	void Start () {
-        StartCoroutine(Fall(fallTime));
+        fall = StartCoroutine(Fall(fallTime));
         int a = 0;
         foreach (Transform childs in transform) {
             blocks.Add(transform.GetChild(a));
@@ -21,63 +30,98 @@ public class Shape : MonoBehaviour {
         Vector3 downVector = new Vector3(0, 0.5f, 0);
         transform.position -= downVector;
     }
-    IEnumerator Fall(float time) {
+    public void Boost (bool b) {
+        if (b) {
+            StopCoroutine(fall);
+            StartCoroutine(Fall(boostTime));
+        }
+        else {
+            StopCoroutine(fall);
+            StartCoroutine(Fall(fallTime));
+        }
+
+    }
+    public IEnumerator Fall(float time) {
         yield return new WaitForSeconds(time);
         if (CheckFall())
             yield break;
         else {
             Down();
-            StartCoroutine(Fall(fallTime));
+            fall = StartCoroutine(Fall(time));
         }
 
     }
     public bool CheckFall() {
         bool hit = false;
-        RaycastHit rayHit;
-        for(int a = 0; a < blocks.Count; a++) {
-            if (Physics.Raycast(blocks[a].position, -transform.parent.transform.up,out rayHit, 0.6f)){
-                if(rayHit.transform.tag == "bottom") {
-                    hit = true;
-                    
+        if (!bottom) {
 
+            RaycastHit rayHit;
+            for (int a = 0; a < blocks.Count; a++) {
+                if (Physics.Raycast(blocks[a].position, -transform.parent.transform.up, out rayHit, 0.6f)) {
+                    if (rayHit.transform.tag == "bottom") {
+                        hit = true;
+                        TetrisManager.manager.shape = null;
+                        TetrisManager.manager.SpawnNew();
+                        for (int b = 0; b < blocks.Count; b++) {
+                            blocks[b].tag = "bottom";
+
+                        }
+                        bottom = true;
+                        TetrisManager.manager.CheckRow();
+                        StopAllCoroutines();
+                        return hit;
+                        
+
+                    }
                 }
             }
+            
         }
         return hit;
     }
-    public void Move(int side) {
-        if (!CheckMove(side)) { 
-            if (side == 1) {
-                Vector3 downVector = new Vector3(0.5f, 0, 0);
-                transform.parent.transform.position -= downVector;
-            }
-            else {
-                Vector3 downVector = new Vector3(-0.5f, 0, 0);
-                transform.parent.transform.position -= downVector;
+    public void Move(bool left) {
+        if (move) {
+            move = false;
+            StartCoroutine(MoveDelay(moveTime));
+            if (!CheckMove(left)) {
+                if (left) {
+                    Vector3 downVector = new Vector3(0.5f, 0, 0);
+                    transform.parent.transform.position -= downVector;
+                }
+                else {
+                    Vector3 downVector = new Vector3(-0.5f, 0, 0);
+                    transform.parent.transform.position -= downVector;
+                }
             }
         }
     }
-    public void Rotate() {
-        transform.Rotate(new Vector3(0, 0, 90));
+    IEnumerator MoveDelay(float time) {
+        yield return new WaitForSeconds(time);
+        move = true;
     }
-    public bool CheckMove(int side) {
+    public void Rotate() {
+        if(!square)
+            transform.Rotate(new Vector3(0, 0, 90));
+    }
+    public bool CheckMove(bool side) {
         bool hit = false;
         RaycastHit rayHit;
         Vector3 sideVector;
-        if(side == 1) {
+        if (side) {
             sideVector = -transform.parent.transform.right;
         }
         else {
             sideVector = transform.parent.transform.right;
         }
         for (int a = 0; a < blocks.Count; a++) {
-            if (Physics.Raycast(blocks[a].position, sideVector , out rayHit, 0.6f)) {
-                if (rayHit.transform.tag == "Side") {
+            if (Physics.Raycast(blocks[a].position, sideVector, out rayHit, 0.6f)) {
+                if (rayHit.transform.tag == "Side" || rayHit.transform.tag == "bottom") {
                     hit = true;
-                    manager.SpawnNew();
+
                 }
             }
         }
         return hit;
+    
     }
 }
