@@ -67,7 +67,7 @@ public class Shape : MonoBehaviour {
 
                         }
                         bottom = true;
-                        TetrisManager.manager.CheckRow();
+                        TetrisManager.manager.CheckField();
                         StopAllCoroutines();
                         return hit;
                         

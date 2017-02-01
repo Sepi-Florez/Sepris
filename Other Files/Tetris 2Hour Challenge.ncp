@@ -8,42 +8,43 @@
         <Name>Shape</Name>
         <Access>Public</Access>
         <Location left="11" top="10" />
-        <Size width="234" height="332" />
+        <Size width="234" height="400" />
         <Collapsed>False</Collapsed>
+        <Member type="Field">public float moveTime</Member>
         <Member type="Field">float fallTime</Member>
+        <Member type="Field">public float boostTime</Member>
+        <Member type="Field">bool move = true</Member>
         <Member type="Field">public bool bottom = false</Member>
-        <Member type="Field">Transform[] blocks</Member>
-        <Member type="Field">Coroutine fall</Member>
-        <Member type="Field">public float moveTime</Member>
         <Member type="Field">public bool square = false</Member>
-        <Member type="Field">public float moveTime</Member>
+        <Member type="Field">List&lt;Transform&gt; Blocks</Member>
+        <Member type="Field">Coroutine fall</Member>
         <Member type="Method">void Start()</Member>
-        <Member type="Method">public voidl Boost(bool b)</Member>
-        <Member type="Method">public void CheckRow(int row)</Member>
-        <Member type="Method">public void Rotate()</Member>
-        <Member type="Method">public void CheckFall()</Member>
-        <Member type="Method">IEnumerator Fall(float time)</Member>
         <Member type="Method">public void Down()</Member>
+        <Member type="Method">public voidl Boost(bool b)</Member>
+        <Member type="Method">IEnumerator Fall(float time)</Member>
+        <Member type="Method">public void CheckFall()</Member>
         <Member type="Method">public void Move(int side)</Member>
+        <Member type="Method">IEnumerator MoveDelay(float time)</Member>
+        <Member type="Method">public void Rotate()</Member>
+        <Member type="Method">public bool CheckMove(bool side)</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>TetrisManager</Name>
         <Access>Public</Access>
-        <Location left="347" top="10" />
-        <Size width="164" height="264" />
+        <Location left="351" top="10" />
+        <Size width="219" height="264" />
         <Collapsed>False</Collapsed>
-        <Member type="Field">Vector3[] spawnPos</Member>
         <Member type="Field">public static TetrisManager manager</Member>
-        <Member type="Field">public GameObject[] shapes</Member>
         <Member type="Field">public Shape shape</Member>
-        <Member type="Field">public float inputDelay</Member>
+        <Member type="Field">Vector3[] spawnPos</Member>
+        <Member type="Field">public GameObject[] shapes</Member>
         <Member type="Field">public int next</Member>
-        <Member type="Method">public void CheckRow()</Member>
         <Member type="Method">void start()</Member>
         <Member type="Method">void Update()</Member>
-        <Member type="Method">void Controls()</Member>
         <Member type="Method">public void SpawnNew()</Member>
+        <Member type="Method">void Controls()</Member>
+        <Member type="Method">public void CheckRow()</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
@@ -57,16 +58,12 @@
     </Entities>
     <Relationships>
       <Relationship type="Association" first="0" second="1">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>
       </Relationship>
       <Relationship type="Association" first="1" second="0">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
