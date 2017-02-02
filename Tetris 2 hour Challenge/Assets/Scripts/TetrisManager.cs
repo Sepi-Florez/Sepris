@@ -24,7 +24,7 @@ public class TetrisManager : MonoBehaviour {
         Shape newShape = (Shape)Instantiate(shapes[next], spawnPos[Random.Range(0, spawnPos.Length)], Quaternion.identity).transform.GetChild(0).GetComponent<Shape>();
         next = Random.Range(0, shapes.Length);
         shape = newShape;
-        UIManager.UI.NextUpdate(next);
+        //UIManager.UI.NextUpdate(next);
     }
     void Controls() {
         if (Input.GetButtonDown("Down")){
