@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class TetrisManager : MonoBehaviour {
     public static TetrisManager manager;
+    [HideInInspector]
     public Shape shape;
     public Vector3[] spawnPos;
     public GameObject[] shapes;
-    public Transform[] checkers;
 
-    public int next;
+    private int next;
 
     void Start() {
         SpawnNew();

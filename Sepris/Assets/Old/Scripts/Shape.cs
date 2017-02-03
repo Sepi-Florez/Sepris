@@ -24,10 +24,10 @@ public class Shape : MonoBehaviour {
         }
 	}
     void Update() {
-        Debug.DrawRay(blocks[0].position, -transform.parent.transform.up, Color.red);
+ 
     }
 	public void Down() {
-        Vector3 downVector = new Vector3(0, 0.5f, 0);
+        Vector3 downVector = new Vector3(0, 1, 0);
         transform.position -= downVector;
     }
     public void Boost (bool b) {
@@ -57,7 +57,7 @@ public class Shape : MonoBehaviour {
 
             RaycastHit rayHit;
             for (int a = 0; a < blocks.Count; a++) {
-                if (Physics.Raycast(blocks[a].position, -transform.parent.transform.up, out rayHit, 0.6f)) {
+                if (Physics.Raycast(blocks[a].position, -transform.parent.transform.up, out rayHit, 1.1f)) {
                     if (rayHit.transform.tag == "bottom") {
                         hit = true;
                         TetrisManager.manager.shape = null;
@@ -83,13 +83,13 @@ public class Shape : MonoBehaviour {
         if (move) {
             move = false;
             StartCoroutine(MoveDelay(moveTime));
-            if (!CheckMove(left)) {
+            if (CheckMove(left)) {
                 if (left) {
-                    Vector3 downVector = new Vector3(0.5f, 0, 0);
+                    Vector3 downVector = new Vector3(1, 0, 0);
                     transform.parent.transform.position -= downVector;
                 }
                 else {
-                    Vector3 downVector = new Vector3(-0.5f, 0, 0);
+                    Vector3 downVector = new Vector3(-1, 0, 0);
                     transform.parent.transform.position -= downVector;
                 }
             }
@@ -104,8 +104,8 @@ public class Shape : MonoBehaviour {
             if (turn) { 
                 transform.Rotate(new Vector3(0, 0, 90));
                 RaycastHit hit;
-                Vector3 kick = new Vector3(0.5f, 0, 0);
-                Vector3 kick2 = new Vector3(0, 0.5f, 0);
+                Vector3 kick = new Vector3(1, 0, 0);
+                Vector3 kick2 = new Vector3(0, 1, 0);
                 for (int a = 0; a < blocks.Count; a++) {
                     if(Physics.Raycast(blocks[a].position,transform.forward,out hit, 0.2f)) {
                         if(hit.transform.tag == "bottom") {
@@ -113,11 +113,11 @@ public class Shape : MonoBehaviour {
                             return;
                         }
                     }
-                    else if(blocks[a].position.x < -2.25) {
+                    else if(blocks[a].position.x < -5) {
                         transform.parent.transform.position += kick;
                         return;
                     }
-                    else if (blocks[a].position.x > 2.25) {
+                    else if (blocks[a].position.x > 5) {
                         transform.parent.transform.position -= kick;
                         return;
                     }
@@ -135,25 +135,23 @@ public class Shape : MonoBehaviour {
 
         
     }
-    public bool CheckMove(bool side) {
-        bool hit = false;
-        RaycastHit rayHit;
-        Vector3 sideVector;
-        if (side) {
-            sideVector = -transform.parent.transform.right;
-        }
-        else {
-            sideVector = transform.parent.transform.right;
-        }
+    public bool CheckMove(bool left) {
+        bool go = false;
         for (int a = 0; a < blocks.Count; a++) {
-            if (Physics.Raycast(blocks[a].position, sideVector, out rayHit, 0.6f)) {
-                if (rayHit.transform.tag == "Side" || rayHit.transform.tag == "bottom") {
-                    hit = true;
+            if (left) {
+                if (blocks[a].position.x == -4.5) {
 
+                    return go;
+                }
+            }
+            else {
+                if (blocks[a].position.x == 4.5) {
+
+                    return go;
                 }
             }
         }
-        return hit;
-    
+        go = true;
+        return go;
     }
 }

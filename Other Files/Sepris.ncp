@@ -1,7 +1,7 @@
 <Project>
-  <Name>Tetris 2Hour Challenge</Name>
+  <Name>Sepris</Name>
   <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
-    <Name>General</Name>
+    <Name>Old</Name>
     <Language>CSharp</Language>
     <Entities>
       <Entity type="Class">
@@ -44,21 +44,12 @@
         <Member type="Method">void Update()</Member>
         <Member type="Method">public void SpawnNew()</Member>
         <Member type="Method">void Controls()</Member>
-        <Member type="Method">public void CheckField()</Member>
-        <Modifier>None</Modifier>
-      </Entity>
-      <Entity type="Class">
-        <Name>Block</Name>
-        <Access>Public</Access>
-        <Location left="25" top="505" />
-        <Size width="162" height="216" />
-        <Collapsed>False</Collapsed>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>UserInterfaceManager</Name>
         <Access>Public</Access>
-        <Location left="208" top="505" />
+        <Location left="351" top="331" />
         <Size width="212" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Field">public static UIManager UI</Member>
@@ -71,17 +62,35 @@
     </Entities>
     <Relationships>
       <Relationship type="Association" first="0" second="1">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>
       </Relationship>
       <Relationship type="Association" first="1" second="0">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>
       </Relationship>
+      <Relationship type="Association" first="1" second="2">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
     </Relationships>
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>General</Name>
+    <Language>CSharp</Language>
+    <Entities />
+    <Relationships />
   </ProjectItem>
 </Project>
