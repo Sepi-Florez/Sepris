@@ -7,7 +7,7 @@
       <Entity type="Class">
         <Name>Shape</Name>
         <Access>Public</Access>
-        <Location left="11" top="10" />
+        <Location left="11" top="11" />
         <Size width="234" height="400" />
         <Collapsed>False</Collapsed>
         <Member type="Field">public float moveTime</Member>
@@ -32,7 +32,7 @@
       <Entity type="Class">
         <Name>TetrisManager</Name>
         <Access>Public</Access>
-        <Location left="351" top="10" />
+        <Location left="351" top="11" />
         <Size width="219" height="264" />
         <Collapsed>False</Collapsed>
         <Member type="Field">public static TetrisManager manager</Member>
@@ -44,15 +44,28 @@
         <Member type="Method">void Update()</Member>
         <Member type="Method">public void SpawnNew()</Member>
         <Member type="Method">void Controls()</Member>
-        <Member type="Method">public void CheckRow()</Member>
+        <Member type="Method">public void CheckField()</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>Block</Name>
         <Access>Public</Access>
-        <Location left="11" top="363" />
+        <Location left="25" top="505" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>UserInterfaceManager</Name>
+        <Access>Public</Access>
+        <Location left="208" top="505" />
+        <Size width="212" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public static UIManager UI</Member>
+        <Member type="Field">GameObject CurrentNext</Member>
+        <Member type="Field">public GameObject[] shapes</Member>
+        <Member type="Field">public Transform posNext</Member>
+        <Member type="Method">public void NextUpdate(int next)</Member>
         <Modifier>None</Modifier>
       </Entity>
     </Entities>

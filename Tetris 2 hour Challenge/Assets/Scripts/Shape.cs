@@ -33,14 +33,14 @@ public class Shape : MonoBehaviour {
     public void Boost (bool b) {
         if (b) {
             StopCoroutine(fall);
-            StartCoroutine(Fall(boostTime));
+            fall = StartCoroutine(Fall(boostTime));
         }
         else {
             StopCoroutine(fall);
-            StartCoroutine(Fall(fallTime));
+            fall = StartCoroutine(Fall(fallTime));
         }
 
-    }
+    }   
     public IEnumerator Fall(float time) {
         yield return new WaitForSeconds(time);
         if (CheckFall())
@@ -102,6 +102,7 @@ public class Shape : MonoBehaviour {
     public void Rotate() {
         if(!square)
             transform.Rotate(new Vector3(0, 0, 90));
+        
     }
     public bool CheckMove(bool side) {
         bool hit = false;
