@@ -1,0 +1,3 @@
+Turn Behaviour :
+
+When the tetraminoe is turned and it will take up a space that is taken by another block it will not turn. When it will get into a wall it should get a kick to the opposite side.
