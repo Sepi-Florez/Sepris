@@ -62,24 +62,18 @@
     </Entities>
     <Relationships>
       <Relationship type="Association" first="0" second="1">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>
       </Relationship>
       <Relationship type="Association" first="1" second="0">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>
       </Relationship>
       <Relationship type="Association" first="1" second="2">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <Direction>Unidirectional</Direction>
@@ -90,7 +84,45 @@
   <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
     <Name>General</Name>
     <Language>CSharp</Language>
-    <Entities />
+    <Entities>
+      <Entity type="Class">
+        <Name>Grid</Name>
+        <Access>Public</Access>
+        <Location left="10" top="10" />
+        <Size width="239" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public static int w = 10</Member>
+        <Member type="Field">public static int h = 20</Member>
+        <Member type="Field">public static Transform[,] grid = new Transform[w,h]</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Tetrimino</Name>
+        <Access>Public</Access>
+        <Location left="269" top="10" />
+        <Size width="234" height="400" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public float moveTime</Member>
+        <Member type="Field">float fallTime</Member>
+        <Member type="Field">public float boostTime</Member>
+        <Member type="Field">bool move = true</Member>
+        <Member type="Field">public bool bottom = false</Member>
+        <Member type="Field">public bool square = false</Member>
+        <Member type="Field">List&lt;Transform&gt; Blocks</Member>
+        <Member type="Field">Coroutine fall</Member>
+        <Member type="Method">void Start()</Member>
+        <Member type="Method">public void Fall()</Member>
+        <Member type="Method">public voidl Boost(bool b)</Member>
+        <Member type="Method">IEnumerator FallWait(float time)</Member>
+        <Member type="Method">public void CheckFall()</Member>
+        <Member type="Method">public void Move(int side)</Member>
+        <Member type="Method">public bool CheckMove(bool side)</Member>
+        <Member type="Method">IEnumerator MoveDelay(float time)</Member>
+        <Member type="Method">public void Rotate()</Member>
+        <Member type="Method">public void CheckRotation()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
     <Relationships />
   </ProjectItem>
 </Project>
