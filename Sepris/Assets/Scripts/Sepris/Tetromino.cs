@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tetromino : MonoBehaviour {
+public class Tetromino : MonoBehaviour { 
+
     public float moveTime;
     public float fallTime;
     public float boostTime;
@@ -50,10 +51,13 @@ public class Tetromino : MonoBehaviour {
 
     }
     public bool CheckFall() {
-        for(int b = 1; b < blocks.Count; b++) {
+        for(int b = 0; b < blocks.Count; b++) {
             if (blocks[b].position.y < Grid.h) {
-                if (Grid.grid[(int)blocks[b].position.x, (int)blocks[b - 1].position.y] != null || blocks[b].position.y == 0) {
+                if (blocks[b].position.y == 0) {
                     return false;
+                }
+                else if(Grid.grid[(int)blocks[b].position.x, (int)blocks[b].position.y - 1] != null) {
+
                 }
             }
         }
@@ -76,7 +80,7 @@ public class Tetromino : MonoBehaviour {
     public bool CheckMove(bool left) {
         for (int b = 0; b < blocks.Count; b++) {
             if (left) {
-                if (blocks[b].position.x <= 0) {
+                if (blocks[b].position.x - 1 < 0) {
                     print("fail");
                     return false;
                 }
@@ -88,12 +92,12 @@ public class Tetromino : MonoBehaviour {
 
             }
             else {
-                if (blocks[b].position.x >= 10) {
+                if (blocks[b].position.x + 1 > 9) {
                     print("fail");
                     print(blocks[b].position.x);
                     return false;
                 }
-                else if (blocks[b].position.x + 1 <= Grid.w) {
+                else if (blocks[b].position.x + 1 < Grid.w) {
                     if(Grid.grid[(int)blocks[b].position.x, (int)blocks[b].position.y] != null) {
                         return false;
                     }
@@ -117,12 +121,12 @@ public class Tetromino : MonoBehaviour {
     }
     public void  CheckRotation() {
         for (int a = 0; a < blocks.Count; a++) {
-            if (blocks[a].position.x > 10) {
-                transform.parent.transform.position += new Vector3(1, 0, 0);
+            if (blocks[a].position.x > 9) {
+                transform.parent.transform.position -= new Vector3(1, 0, 0);
 
             }
-            else if (blocks[a].position.x < 1) {
-                transform.parent.transform.position -= new Vector3(1, 0, 0);
+            else if (blocks[a].position.x < 0) {
+                transform.parent.transform.position += new Vector3(1, 0, 0);
 
             }
             else if (blocks[a].position.y < 0) {
@@ -137,5 +141,6 @@ public class Tetromino : MonoBehaviour {
         for (int a = 0; a < blocks.Count; a++) {
             Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y] = blocks[a];
         }
+        GameManager.manager.SpawnNew();
     }
 }
