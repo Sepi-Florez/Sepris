@@ -57,7 +57,7 @@ public class Tetromino : MonoBehaviour {
                     return false;
                 }
                 else if(Grid.grid[(int)blocks[b].position.x, (int)blocks[b].position.y - 1] != null) {
-
+                    return false;
                 }
             }
         }
@@ -84,7 +84,7 @@ public class Tetromino : MonoBehaviour {
                     print("fail");
                     return false;
                 }
-                else if (blocks[b].position.x - 1 > 0) {
+                else if (blocks[b].position.x - 1 < 0) {
                     if(Grid.grid[(int)blocks[b].position.x - 1, (int)blocks[b].position.y] != null) {
                         return false;
                     }
@@ -140,6 +140,7 @@ public class Tetromino : MonoBehaviour {
     public void BecomeBottom() {
         for (int a = 0; a < blocks.Count; a++) {
             Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y] = blocks[a];
+            print(Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y]);
         }
         GameManager.manager.SpawnNew();
     }
