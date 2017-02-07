@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -74,20 +74,31 @@ public class Tetromino : MonoBehaviour {
         }
     }
     public bool CheckMove(bool left) {
-        for (int b = 1; b < blocks.Count; b++) {
-            if (Grid.InsideBorder(blocks[b].position)) {
-                if (left) {
-                    if (blocks[b].position.x < 5 || Grid.grid[(int)blocks[b].position.x + 1,(int)blocks[b].position.y] != null) {
-                        return false;
-                    }
-
+        for (int b = 0; b < blocks.Count; b++) {
+            if (left) {
+                if (blocks[b].position.x <= 0) {
+                    print("fail");
+                    return false;
                 }
-                else {
-                    if (blocks[b].position.x > -5 || Grid.grid[(int)blocks[b].position.x - 1, (int)blocks[b].position.y] != null) {
+                else if (blocks[b].position.x - 1 > 0) {
+                    if(Grid.grid[(int)blocks[b].position.x - 1, (int)blocks[b].position.y] != null) {
                         return false;
                     }
-                } 
-             }
+                }
+
+            }
+            else {
+                if (blocks[b].position.x >= 10) {
+                    print("fail");
+                    print(blocks[b].position.x);
+                    return false;
+                }
+                else if (blocks[b].position.x + 1 <= Grid.w) {
+                    if(Grid.grid[(int)blocks[b].position.x, (int)blocks[b].position.y] != null) {
+                        return false;
+                    }
+                }
+            } 
          }
         return true;
     }
