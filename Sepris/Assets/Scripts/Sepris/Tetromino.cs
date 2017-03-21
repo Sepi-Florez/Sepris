@@ -82,7 +82,7 @@ public class Tetromino : MonoBehaviour {
             if (left) {
                 print(blocks[b].position);
                 if ((int)(blocks[b].position.x - 1) < 0) {
-                    print("too far left");
+                    print("too far left" + blocks[b].position);
                     return false;
                 }
                 else if (Grid.grid[(int)(blocks[b].position.x - 1), (int)(blocks[b].position.y)] != null) {
@@ -141,7 +141,7 @@ public class Tetromino : MonoBehaviour {
     public void BecomeBottom() {
         for (int a = 0; a < blocks.Count; a++) {
             Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y] = blocks[a];
-            print(Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y]);
+            print("Placed" + Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y]);
         }
         GameManager.manager.SpawnNew();
     }
