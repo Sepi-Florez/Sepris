@@ -80,27 +80,25 @@ public class Tetromino : MonoBehaviour {
     public bool CheckMove(bool left) {
         for (int b = 0; b < blocks.Count; b++) {
             if (left) {
-                if (blocks[b].position.x - 1 < 0) {
-                    print("fail");
+                print(blocks[b].position);
+                if ((int)(blocks[b].position.x - 1) < 0) {
+                    print("too far left");
                     return false;
                 }
-                else if (blocks[b].position.x - 1 < 0) {
-                    if(Grid.grid[(int)blocks[b].position.x - 1, (int)blocks[b].position.y] != null) {
-                        return false;
-                    }
+                else if (Grid.grid[(int)(blocks[b].position.x - 1), (int)(blocks[b].position.y)] != null) {
+                    print("blocked by blocks left");
+                    return false;
                 }
 
             }
             else {
                 if (blocks[b].position.x + 1 > 9) {
-                    print("fail");
-                    print(blocks[b].position.x);
+                    print("too far right");
                     return false;
                 }
-                else if (blocks[b].position.x + 1 < Grid.w) {
-                    if(Grid.grid[(int)blocks[b].position.x, (int)blocks[b].position.y] != null) {
-                        return false;
-                    }
+                else if (Grid.grid[(int)(blocks[b].position.x + 1), (int)(blocks[b].position.y)] != null) {
+                    print("blocked by blocks right");
+                    return false;
                 }
             } 
          }
@@ -132,7 +130,10 @@ public class Tetromino : MonoBehaviour {
             else if (blocks[a].position.y < 0) {
                 transform.parent.transform.position += new Vector3(0, 1, 0);
             }
-            else if (Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y] != null) {
+            else if (blocks[a].position.y > 19) {
+                transform.parent.transform.position += new Vector3(0, -1, 0);
+            }
+            else if (Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y - 1] != null) {
                 transform.Rotate(new Vector3(0, 0, -90));
             }
         }
