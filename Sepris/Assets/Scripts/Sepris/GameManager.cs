@@ -8,14 +8,21 @@ public class GameManager : MonoBehaviour {
     public Vector3[] spawnPos;
     public GameObject[] tetros;
 
+    public float moveTime;
+    public float fallRate;
+    public float fallTotal;
+    public float boostRate;
+    public float actionMargin;
+
     private int next;
 
     public bool gameOver = false;
 
+    void Awake() {
+        manager = this;
+    }
     void Start() {
         SpawnNew();
-        manager = this;
-
     }
     void Update() {
         if(!gameOver)

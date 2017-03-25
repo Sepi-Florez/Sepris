@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class Tetromino : MonoBehaviour { 
 
-    public float moveTime;
-    public float fallTime;
-    public float boostTime;
+    private float moveTime;
+    private float originalFallRate;
+    private float fallRate;
+    private float fallTotal;
+    private float fallProgress;
+    private float boostRate;
+    private float actionMargin;
 
+    bool action = true;
     bool move = true;
     bool bottom = false;
     public bool square = false;
@@ -17,7 +22,8 @@ public class Tetromino : MonoBehaviour {
     Coroutine fall;
 
     void Awake() {
-        fall = StartCoroutine(FallWait(fallTime));
+        fall = StartCoroutine(FallWait());
+        GetValues();
         int a = 0;
         foreach (Transform childs in transform) {
             blocks.Add(transform.GetChild(a));
@@ -30,33 +36,47 @@ public class Tetromino : MonoBehaviour {
             a++;
         }
     }
+    //Extracts all the speed values from the gamemanager
+    void GetValues() {
+        moveTime = GameManager.manager.moveTime;
+        originalFallRate = GameManager.manager.fallRate;
+        fallRate = originalFallRate;
+        fallTotal = GameManager.manager.fallTotal;
+        boostRate = GameManager.manager.boostRate;
+        actionMargin = GameManager.manager.actionMargin;
+    }
     //moves tetronimo down
     public void Fall() {
         transform.position += new Vector3(0, -1, 0);
     }
     public void Boost(bool b) {
         if (b) {
-            StopCoroutine(fall);
-            fall = StartCoroutine(FallWait(boostTime));
+            fallRate = boostRate;
         }
         else {
-            StopCoroutine(fall);
-            fall = StartCoroutine(FallWait(fallTime));
+            fallRate = originalFallRate;
         }
 
     }
-    //Wait time before checking for fall again
-    public IEnumerator FallWait(float time) {
-        yield return new WaitForSeconds(time);
-        if (!CheckFall()) {
-            BecomeBottom();
-            yield break;
+    //coroutine checking when a certain time has elapsed if tetronimo can fall again
+    public IEnumerator FallWait() {
+        yield return new WaitForSeconds(0.01f);
+        fallProgress += fallRate;
+        if (fallProgress >= fallTotal) {
+            fallProgress = 0;
+            if (!CheckFall()) {
+                BecomeBottom();
+                yield break;
+            }
+            else {
+                Fall();
+            }
+            action = true;
         }
-        else {
-            Fall();
-            fall = StartCoroutine(FallWait(time));
+        else if (fallProgress >= fallTotal - actionMargin) {
+            action = false;
         }
-
+        fall = StartCoroutine(FallWait());
     }
     //checks if falling is possible
     public bool CheckFall() {
@@ -76,15 +96,17 @@ public class Tetromino : MonoBehaviour {
     }
     //Moves the tetronimo left or right
     public void Move(bool left) {
-        if (move) {
-            move = false;
-            StartCoroutine(MoveDelay(moveTime));
-            if (CheckMove(left)) {
-                if (left) {
-                    transform.parent.transform.position -= new Vector3(1, 0, 0);
-                }
-                else {
-                    transform.parent.transform.position -= new Vector3(-1, 0, 0);
+        if (action) {
+            if (move) {
+                move = false;
+                StartCoroutine(MoveDelay(moveTime));
+                if (CheckMove(left)) {
+                    if (left) {
+                        transform.parent.transform.position -= new Vector3(1, 0, 0);
+                    }
+                    else {
+                        transform.parent.transform.position -= new Vector3(-1, 0, 0);
+                    }
                 }
             }
         }
@@ -122,11 +144,13 @@ public class Tetromino : MonoBehaviour {
         move = true;
     }
     public void Rotate(bool turn) {
-        if (!square) {
-            if (turn) {
-                transform.Rotate(new Vector3(0, 0, 90));
-                CheckRotation();
-                
+        if (action) {
+            if (!square) {
+                if (turn) {
+                    transform.Rotate(new Vector3(0, 0, 90));
+                    CheckRotation();
+
+                }
             }
         }
     }
@@ -134,23 +158,43 @@ public class Tetromino : MonoBehaviour {
     public void  CheckRotation() {
         for (int a = 0; a < blocks.Count; a++) {
             if (blocks[a].position.x > 9) {
-                transform.parent.transform.position -= new Vector3(1, 0 , 0);
-
+                transform.parent.transform.position -= new Vector3(1, 0, 0);
+                if (!KickCheck()) {
+                    transform.parent.transform.position += new Vector3(1, 0, 0);
+                }
             }
             else if (blocks[a].position.x < 0) {
                 transform.parent.transform.position += new Vector3(1, 0, 0);
-
+                if (!KickCheck()) {
+                    transform.parent.transform.position -= new Vector3(1, 0, 0);
+                }
             }
             else if (blocks[a].position.y < 0) {
                 transform.parent.transform.position += new Vector3(0, 1, 0);
+                if (!KickCheck()) {
+                    transform.parent.transform.position -= new Vector3(0, 1, 0);
+                }
             }
             else if (blocks[a].position.y > 19) {
                 transform.parent.transform.position += new Vector3(0, -1, 0);
+                if (!KickCheck()) {
+                    transform.parent.transform.position += new Vector3(0, 1, 0);
+                }
             }
-            else if (Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y] != null) {
+            if (Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y] != null) {
+                transform.Rotate(new Vector3(0, 0, -90));   
+            }
+        }
+    }
+    bool KickCheck() {
+        bool check = true;
+        for (int a = 0; a < blocks.Count; a++) {
+            if (Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y] != null) {
+                check = false;
                 transform.Rotate(new Vector3(0, 0, -90));
             }
         }
+        return check;
     }
     //Happens when falling is not possible. Will place the blocks in the grid and tell the GameManager to spawn the next block.
     public void BecomeBottom() {

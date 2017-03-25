@@ -1,3 +1,5 @@
-Turn Behaviour :
+Bugs :
 
-When the tetraminoe is turned and it will take up a space that is taken by another block it will not turn. When it will get into a wall it should get a kick to the opposite side.
+1. The weird left side fall wrong grid checking bug
+
+2. wall kicks happen even if theres no room for a wall kick
