@@ -30,6 +30,7 @@ public class Tetromino : MonoBehaviour {
             a++;
         }
     }
+    //moves tetronimo down
     public void Fall() {
         transform.position += new Vector3(0, -1, 0);
     }
@@ -44,6 +45,7 @@ public class Tetromino : MonoBehaviour {
         }
 
     }
+    //Wait time before checking for fall again
     public IEnumerator FallWait(float time) {
         yield return new WaitForSeconds(time);
         if (!CheckFall()) {
@@ -56,6 +58,7 @@ public class Tetromino : MonoBehaviour {
         }
 
     }
+    //checks if falling is possible
     public bool CheckFall() {
         for(int b = 0; b < blocks.Count; b++) {
             if (blocks[b].position.y < Grid.h) {
@@ -71,6 +74,7 @@ public class Tetromino : MonoBehaviour {
         }
         return true;
     }
+    //Moves the tetronimo left or right
     public void Move(bool left) {
         if (move) {
             move = false;
@@ -85,6 +89,7 @@ public class Tetromino : MonoBehaviour {
             }
         }
     }
+    //Checks if you can move left or right
     public bool CheckMove(bool left) {
         for (int b = 0; b < blocks.Count; b++) {
             if (left) {
@@ -111,6 +116,7 @@ public class Tetromino : MonoBehaviour {
          }
         return true;
     }
+    //A delay so movement feels more blocky
     IEnumerator MoveDelay(float time) {
         yield return new WaitForSeconds(time);
         move = true;
@@ -124,6 +130,7 @@ public class Tetromino : MonoBehaviour {
             }
         }
     }
+    // Checks if rotation is possible
     public void  CheckRotation() {
         for (int a = 0; a < blocks.Count; a++) {
             if (blocks[a].position.x > 9) {
@@ -145,6 +152,7 @@ public class Tetromino : MonoBehaviour {
             }
         }
     }
+    //Happens when falling is not possible. Will place the blocks in the grid and tell the GameManager to spawn the next block.
     public void BecomeBottom() {
         for (int a = 0; a < blocks.Count; a++) {
 
@@ -152,13 +160,9 @@ public class Tetromino : MonoBehaviour {
             print("Placed" + Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y] + Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y].position);
             
         }
-        for(int a = 0; a < blocks.Count; a++) {
-            if (Grid.IsRowFull(blocks[a].position.y)) {
+        Grid.DeleteFullRows();
 
-            }
-        }
-
-        if(!GameManager.manager.gameOver)
+        if (!GameManager.manager.gameOver)
             GameManager.manager.SpawnNew();
 
     }

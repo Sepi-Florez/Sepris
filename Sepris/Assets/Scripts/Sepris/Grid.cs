@@ -21,6 +21,7 @@ public class Grid : MonoBehaviour {
     }
     public static void DeleteRow(int y) {
         for (int x = 0; x < w; ++x) {
+            print("Removing " + grid[x, y].position);
             Destroy(grid[x, y].gameObject);
             grid[x, y] = null;
         }
@@ -35,6 +36,7 @@ public class Grid : MonoBehaviour {
 
                 // Update Block position
                 grid[x, y - 1].position += new Vector3(0, -1, 0);
+
             }
         }
     }
