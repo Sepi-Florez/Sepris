@@ -10,15 +10,19 @@ public class GameManager : MonoBehaviour {
 
     private int next;
 
+    public bool gameOver = false;
+
     void Start() {
         SpawnNew();
         manager = this;
 
     }
     void Update() {
-        Controls();
+        if(!gameOver)
+            Controls();
     }
     public void SpawnNew() {
+        
         tetro = (Tetromino)Instantiate(tetros[Random.Range(0, tetros.Length)], spawnPos[Random.Range(0, spawnPos.Length)], Quaternion.identity).transform.GetChild(0).GetComponent<Tetromino>();
         next = Random.Range(0, tetros.Length);
         //UIManager.UI.NextUpdate(next);

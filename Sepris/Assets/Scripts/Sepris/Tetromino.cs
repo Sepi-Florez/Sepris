@@ -16,11 +16,17 @@ public class Tetromino : MonoBehaviour {
 
     Coroutine fall;
 
-    void Start() {
+    void Awake() {
         fall = StartCoroutine(FallWait(fallTime));
         int a = 0;
         foreach (Transform childs in transform) {
             blocks.Add(transform.GetChild(a));
+            if (Grid.grid[(int)blocks[a].position.x,(int)blocks[a].position.y] != null) {
+                print("Game Over");
+                GameManager.manager.gameOver = true;
+                Destroy(gameObject);
+
+            }
             a++;
         }
     }
@@ -54,9 +60,11 @@ public class Tetromino : MonoBehaviour {
         for(int b = 0; b < blocks.Count; b++) {
             if (blocks[b].position.y < Grid.h) {
                 if (blocks[b].position.y == 0) {
+                    
                     return false;
                 }
-                else if(Grid.grid[(int)blocks[b].position.x, (int)blocks[b].position.y - 1] != null) {
+                else if ( Grid.grid[(int)blocks[b].position.x, (int)blocks[b].position.y - 1] != null) {
+                    print(blocks[b].position + "Blocked by " + Grid.grid[(int)blocks[b].position.x, (int)blocks[b].position.y - 1] + Grid.grid[(int)blocks[b].position.x, (int)blocks[b].position.y - 1].position);
                     return false;
                 }
             }
@@ -80,7 +88,6 @@ public class Tetromino : MonoBehaviour {
     public bool CheckMove(bool left) {
         for (int b = 0; b < blocks.Count; b++) {
             if (left) {
-                print(blocks[b].position);
                 if ((int)(blocks[b].position.x - 1) < 0) {
                     print("too far left" + blocks[b].position);
                     return false;
@@ -120,7 +127,7 @@ public class Tetromino : MonoBehaviour {
     public void  CheckRotation() {
         for (int a = 0; a < blocks.Count; a++) {
             if (blocks[a].position.x > 9) {
-                transform.parent.transform.position -= new Vector3(1, 0, 0);
+                transform.parent.transform.position -= new Vector3(1, 0 , 0);
 
             }
             else if (blocks[a].position.x < 0) {
@@ -133,16 +140,26 @@ public class Tetromino : MonoBehaviour {
             else if (blocks[a].position.y > 19) {
                 transform.parent.transform.position += new Vector3(0, -1, 0);
             }
-            else if (Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y - 1] != null) {
+            else if (Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y] != null) {
                 transform.Rotate(new Vector3(0, 0, -90));
             }
         }
     }
     public void BecomeBottom() {
         for (int a = 0; a < blocks.Count; a++) {
+
             Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y] = blocks[a];
-            print("Placed" + Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y]);
+            print("Placed" + Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y] + Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y].position);
+            
         }
-        GameManager.manager.SpawnNew();
+        for(int a = 0; a < blocks.Count; a++) {
+            if (Grid.IsRowFull(blocks[a].position.y)) {
+
+            }
+        }
+
+        if(!GameManager.manager.gameOver)
+            GameManager.manager.SpawnNew();
+
     }
 }
