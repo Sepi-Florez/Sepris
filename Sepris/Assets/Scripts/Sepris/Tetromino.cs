@@ -148,51 +148,66 @@ public class Tetromino : MonoBehaviour {
             if (!square) {
                 if (turn) {
                     transform.Rotate(new Vector3(0, 0, 90));
-                    CheckRotation();
+                    if (!CheckRotation()) {
+                        transform.Rotate(new Vector3(0, 0, -90));
+                        print("turn denied");
+                    }
 
                 }
             }
         }
     }
     // Checks if rotation is possible
-    public void  CheckRotation() {
+    bool CheckRotation() {
         for (int a = 0; a < blocks.Count; a++) {
             if (blocks[a].position.x > 9) {
                 transform.parent.transform.position -= new Vector3(1, 0, 0);
                 if (!KickCheck()) {
                     transform.parent.transform.position += new Vector3(1, 0, 0);
+                    return false;
                 }
             }
             else if (blocks[a].position.x < 0) {
                 transform.parent.transform.position += new Vector3(1, 0, 0);
                 if (!KickCheck()) {
                     transform.parent.transform.position -= new Vector3(1, 0, 0);
+                    return false;
                 }
             }
             else if (blocks[a].position.y < 0) {
                 transform.parent.transform.position += new Vector3(0, 1, 0);
                 if (!KickCheck()) {
                     transform.parent.transform.position -= new Vector3(0, 1, 0);
+                    return false;
                 }
             }
             else if (blocks[a].position.y > 19) {
-                transform.parent.transform.position += new Vector3(0, -1, 0);
+                transform.parent.transform.position -= new Vector3(0, 1, 0);
                 if (!KickCheck()) {
                     transform.parent.transform.position += new Vector3(0, 1, 0);
+                    return false;
                 }
             }
-            if (Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y] != null) {
-                transform.Rotate(new Vector3(0, 0, -90));   
+            else if (Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y] != null) {
+                transform.Rotate(new Vector3(0, 0, -90));
+                return false;
             }
+
         }
+        return true;
     }
     bool KickCheck() {
         bool check = true;
+
         for (int a = 0; a < blocks.Count; a++) {
-            if (Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y] != null) {
-                check = false;
-                transform.Rotate(new Vector3(0, 0, -90));
+            Vector2 v = new Vector2(blocks[a].position.x, blocks[a].position.y);
+            if (Grid.InsideBorder(v)) {     
+                if (Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y] != null) {
+                    check = false;
+                }
             }
+
+
         }
         return check;
     }

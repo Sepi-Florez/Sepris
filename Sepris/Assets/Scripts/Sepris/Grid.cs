@@ -11,7 +11,7 @@ public class Grid : MonoBehaviour {
     public static Transform[,] grid = new Transform[w,h];
 
     public static bool InsideBorder(Vector3 pos) {
-        return ((int)pos.x >= 0 && (int)pos.x < w && (int)pos.y >= 0);
+        return ((int)pos.x >= 0 && (int)pos.x < w && (int)pos.y >= 0 && (int)pos.y <= h - 1);
 
     }
 
