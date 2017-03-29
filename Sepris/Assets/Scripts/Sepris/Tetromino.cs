@@ -150,7 +150,7 @@ public class Tetromino : MonoBehaviour {
                     transform.Rotate(new Vector3(0, 0, 90));
                     if (!CheckRotation()) {
                         transform.Rotate(new Vector3(0, 0, -90));
-                        print("turn denied");
+                          print("turn denied");
                     }
 
                 }
