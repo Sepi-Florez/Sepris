@@ -1,6 +1,7 @@
-﻿    using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Tetromino : MonoBehaviour { 
 
@@ -79,12 +80,16 @@ public class Tetromino : MonoBehaviour {
     public bool CheckFall() {
         for(int b = 0; b < blocks.Count; b++) {
             if (blocks[b].position.y < Grid.h) {
-                if (blocks[b].position.y == 0) {
-                    
+                float posX = blocks[b].position.x;
+                float posY = blocks[b].position.y;
+                print("Converted fall check block" + b + " X " + Convert.ToInt32(posX) + " Y " + Convert.ToInt32(posY));
+                if (posY == 0) {
                     return false;
                 }
-                else if ( Grid.grid[(int)blocks[b].position.x, (int)blocks[b].position.y - 1] != null) {
-                    print(blocks[b].position + "Blocked by " + Grid.grid[(int)blocks[b].position.x, (int)blocks[b].position.y - 1] + Grid.grid[(int)blocks[b].position.x, (int)blocks[b].position.y - 1].position);
+
+                else if ( Grid.grid[Convert.ToInt32(posX), Convert.ToInt32(posY)] != null) {
+                    print("non converted block   X " + (blocks[b].position.x) + " Y " + (blocks[b].position.y));
+                    print(blocks[b].position + "Blocked by " + Grid.grid[Convert.ToInt32(blocks[b].position.x), Convert.ToInt32(blocks[b].position.y - 1)].position);
                     return false;
                 }
             }
@@ -98,10 +103,10 @@ public class Tetromino : MonoBehaviour {
             StartCoroutine(MoveDelay(moveTime));
             if (CheckMove(left)) {
                 if (left) {
-                    transform.parent.transform.position -= new Vector3(1, 0, 0);
+                    transform.parent.transform.position -= new Vector3((int)1, 0, 0);
                 }
                 else {
-                    transform.parent.transform.position -= new Vector3(-1, 0, 0);
+                    transform.parent.transform.position -= new Vector3((int)-1, 0, 0);
                 }
             }
         }
@@ -114,7 +119,7 @@ public class Tetromino : MonoBehaviour {
                     print("too far left" + blocks[b].position);
                     return false;
                 }
-                else if (Grid.grid[(int)(blocks[b].position.x - 1), (int)(blocks[b].position.y)] != null) {
+                else if (Grid.grid[Convert.ToInt32(blocks[b].position.x), Convert.ToInt32(blocks[b].position.y)] != null) {
                     print("blocked by blocks left");
                     return false;
                 }
@@ -125,7 +130,7 @@ public class Tetromino : MonoBehaviour {
                     print("too far right");
                     return false;
                 }
-                else if (Grid.grid[(int)(blocks[b].position.x + 1), (int)(blocks[b].position.y)] != null) {
+                else if (Grid.grid[Convert.ToInt32(blocks[b].position.x), Convert.ToInt32(blocks[b].position.y)] != null) {
                     print("blocked by blocks right");
                     return false;
                 }
@@ -182,7 +187,7 @@ public class Tetromino : MonoBehaviour {
                     re = false;
                 }
             }
-            if (Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y] != null) {
+            if (Grid.grid[Convert.ToInt32(blocks[a].position.x), Convert.ToInt32(blocks[a].position.y)] != null) {
                 re = false;
             }
 
@@ -193,29 +198,24 @@ public class Tetromino : MonoBehaviour {
     }
     bool KickCheck() {
         bool check = true;
-
         for (int a = 0; a < blocks.Count; a++) {
             Vector2 v = new Vector2(blocks[a].position.x, blocks[a].position.y);
             if (Grid.InsideBorder(v)) {     
-                if (Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y] != null) {
+                if (Grid.grid[Convert.ToInt32(blocks[a].position.x), Convert.ToInt32(blocks[a].position.y)] != null) {
                     check = false;
                 }
             }
-
-
         }
         return check;
     }
     //Happens when falling is not possible. Will place the blocks in the grid and tell the GameManager to spawn the next block.
     public void BecomeBottom() {
         for (int a = 0; a < blocks.Count; a++) {
+            Grid.grid[Convert.ToInt32(blocks[a].position.x),Convert.ToInt32(blocks[a].position.y)] = blocks[a];
 
-            Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y] = blocks[a];
-            print("Placed" + Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y] + Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y].position);
-            
+            print("Placed    X " + Convert.ToInt32(blocks[a].position.x) + "  Y  " + Convert.ToInt32(blocks[a].position.y));
         }
         Grid.DeleteFullRows();
-
         if (!GameManager.manager.gameOver)
             GameManager.manager.SpawnNew();
 
