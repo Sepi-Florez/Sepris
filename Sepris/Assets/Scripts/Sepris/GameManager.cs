@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour {
         manager = this;
     }
     void Start() {
+
         next = Random.Range(0, tetros.Length);
         SpawnNew();
     }

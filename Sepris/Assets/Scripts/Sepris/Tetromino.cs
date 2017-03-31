@@ -12,7 +12,6 @@ public class Tetromino : MonoBehaviour {
     private float boostRate;
     private float actionMargin;
 
-    bool action = true;
     bool move = true;
     bool bottom = false;
     public bool square = false;
@@ -71,10 +70,8 @@ public class Tetromino : MonoBehaviour {
             else {
                 Fall();
             }
-            action = true;
         }
         else if (fallProgress >= fallTotal - actionMargin) {
-            action = false;
         }
         fall = StartCoroutine(FallWait());
     }
@@ -96,17 +93,15 @@ public class Tetromino : MonoBehaviour {
     }
     //Moves the tetronimo left or right
     public void Move(bool left) {
-        if (action) {
-            if (move) {
-                move = false;
-                StartCoroutine(MoveDelay(moveTime));
-                if (CheckMove(left)) {
-                    if (left) {
-                        transform.parent.transform.position -= new Vector3(1, 0, 0);
-                    }
-                    else {
-                        transform.parent.transform.position -= new Vector3(-1, 0, 0);
-                    }
+        if (move) {
+            move = false;
+            StartCoroutine(MoveDelay(moveTime));
+            if (CheckMove(left)) {
+                if (left) {
+                    transform.parent.transform.position -= new Vector3(1, 0, 0);
+                }
+                else {
+                    transform.parent.transform.position -= new Vector3(-1, 0, 0);
                 }
             }
         }
@@ -144,57 +139,57 @@ public class Tetromino : MonoBehaviour {
         move = true;
     }
     public void Rotate(bool turn) {
-        if (action) {
-            if (!square) {
-                if (turn) {
-                    transform.Rotate(new Vector3(0, 0, 90));
-                    if (!CheckRotation()) {
-                        transform.Rotate(new Vector3(0, 0, -90));
-                          print("turn denied");
-                    }
-
+        if (!square) {
+            if (turn) {
+                transform.Rotate(new Vector3(0, 0, 90));
+                if (!CheckRotation()) {
+                    transform.Rotate(new Vector3(0, 0, -90));
+                        print("turn denied");
                 }
+
             }
         }
     }
     // Checks if rotation is possible
     bool CheckRotation() {
+        bool re = true;
         for (int a = 0; a < blocks.Count; a++) {
             if (blocks[a].position.x > 9) {
                 transform.parent.transform.position -= new Vector3(1, 0, 0);
                 if (!KickCheck()) {
                     transform.parent.transform.position += new Vector3(1, 0, 0);
-                    return false;
+                    re = false;
                 }
             }
             else if (blocks[a].position.x < 0) {
                 transform.parent.transform.position += new Vector3(1, 0, 0);
                 if (!KickCheck()) {
                     transform.parent.transform.position -= new Vector3(1, 0, 0);
-                    return false;
+                    re = false;
                 }
             }
             else if (blocks[a].position.y < 0) {
                 transform.parent.transform.position += new Vector3(0, 1, 0);
                 if (!KickCheck()) {
                     transform.parent.transform.position -= new Vector3(0, 1, 0);
-                    return false;
+                    re =  false;
                 }
             }
             else if (blocks[a].position.y > 19) {
                 transform.parent.transform.position -= new Vector3(0, 1, 0);
                 if (!KickCheck()) {
                     transform.parent.transform.position += new Vector3(0, 1, 0);
-                    return false;
+                    re = false;
                 }
             }
-            else if (Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y] != null) {
-                transform.Rotate(new Vector3(0, 0, -90));
-                return false;
+            if (Grid.grid[(int)blocks[a].position.x, (int)blocks[a].position.y] != null) {
+                re = false;
             }
 
         }
-        return true;
+
+        return re;
+
     }
     bool KickCheck() {
         bool check = true;
