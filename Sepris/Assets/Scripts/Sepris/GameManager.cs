@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
     public static GameManager manager;
-    public Tetromino tetro;
+    Tetromino tetro;
     public Vector3[] spawnPos;
     public GameObject[] tetros;
 
@@ -31,12 +31,14 @@ public class GameManager : MonoBehaviour {
         if(!gameOver)
             Controls();
     }
+    // spawns a new tetronimo and also decided what shape will be next
     public void SpawnNew() {
         
         tetro = (Tetromino)Instantiate(tetros[next], spawnPos[Random.Range(0, spawnPos.Length)], Quaternion.identity).transform.GetChild(0).GetComponent<Tetromino>();
         next = Random.Range(0, tetros.Length);
         //UIManager.UI.NextUpdate(next);
     }
+    // for all neccesery input
     void Controls() {
         if (Input.GetButtonDown("Down")) {
             tetro.Boost(true);

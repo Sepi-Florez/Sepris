@@ -1,87 +1,6 @@
 <Project>
   <Name>Sepris</Name>
   <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
-    <Name>Old</Name>
-    <Language>CSharp</Language>
-    <Entities>
-      <Entity type="Class">
-        <Name>Shape</Name>
-        <Access>Public</Access>
-        <Location left="11" top="11" />
-        <Size width="234" height="400" />
-        <Collapsed>False</Collapsed>
-        <Member type="Field">public float moveTime</Member>
-        <Member type="Field">float fallTime</Member>
-        <Member type="Field">public float boostTime</Member>
-        <Member type="Field">bool move = true</Member>
-        <Member type="Field">public bool bottom = false</Member>
-        <Member type="Field">public bool square = false</Member>
-        <Member type="Field">List&lt;Transform&gt; Blocks</Member>
-        <Member type="Field">Coroutine fall</Member>
-        <Member type="Method">void Start()</Member>
-        <Member type="Method">public void Down()</Member>
-        <Member type="Method">public voidl Boost(bool b)</Member>
-        <Member type="Method">IEnumerator Fall(float time)</Member>
-        <Member type="Method">public void CheckFall()</Member>
-        <Member type="Method">public void Move(int side)</Member>
-        <Member type="Method">IEnumerator MoveDelay(float time)</Member>
-        <Member type="Method">public void Rotate()</Member>
-        <Member type="Method">public bool CheckMove(bool side)</Member>
-        <Modifier>None</Modifier>
-      </Entity>
-      <Entity type="Class">
-        <Name>TetrisManager</Name>
-        <Access>Public</Access>
-        <Location left="351" top="11" />
-        <Size width="219" height="264" />
-        <Collapsed>False</Collapsed>
-        <Member type="Field">public static TetrisManager manager</Member>
-        <Member type="Field">public Shape shape</Member>
-        <Member type="Field">Vector3[] spawnPos</Member>
-        <Member type="Field">public GameObject[] shapes</Member>
-        <Member type="Field">public int next</Member>
-        <Member type="Method">void start()</Member>
-        <Member type="Method">void Update()</Member>
-        <Member type="Method">public void SpawnNew()</Member>
-        <Member type="Method">void Controls()</Member>
-        <Modifier>None</Modifier>
-      </Entity>
-      <Entity type="Class">
-        <Name>UserInterfaceManager</Name>
-        <Access>Public</Access>
-        <Location left="351" top="331" />
-        <Size width="212" height="216" />
-        <Collapsed>False</Collapsed>
-        <Member type="Field">public static UIManager UI</Member>
-        <Member type="Field">GameObject CurrentNext</Member>
-        <Member type="Field">public GameObject[] shapes</Member>
-        <Member type="Field">public Transform posNext</Member>
-        <Member type="Method">public void NextUpdate(int next)</Member>
-        <Modifier>None</Modifier>
-      </Entity>
-    </Entities>
-    <Relationships>
-      <Relationship type="Association" first="0" second="1">
-        <StartOrientation>Horizontal</StartOrientation>
-        <EndOrientation>Horizontal</EndOrientation>
-        <Direction>Unidirectional</Direction>
-        <AssociationType>Association</AssociationType>
-      </Relationship>
-      <Relationship type="Association" first="1" second="0">
-        <StartOrientation>Horizontal</StartOrientation>
-        <EndOrientation>Horizontal</EndOrientation>
-        <Direction>Unidirectional</Direction>
-        <AssociationType>Association</AssociationType>
-      </Relationship>
-      <Relationship type="Association" first="1" second="2">
-        <StartOrientation>Vertical</StartOrientation>
-        <EndOrientation>Vertical</EndOrientation>
-        <Direction>Unidirectional</Direction>
-        <AssociationType>Association</AssociationType>
-      </Relationship>
-    </Relationships>
-  </ProjectItem>
-  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
     <Name>General</Name>
     <Language>CSharp</Language>
     <Entities>
@@ -89,30 +8,37 @@
         <Name>Grid</Name>
         <Access>Public</Access>
         <Location left="10" top="10" />
-        <Size width="239" height="216" />
+        <Size width="239" height="230" />
         <Collapsed>False</Collapsed>
+        <Member type="Field">public static Grid thisGrid</Member>
         <Member type="Field">public static int w = 10</Member>
         <Member type="Field">public static int h = 20</Member>
         <Member type="Field">public static Transform[,] grid = new Transform[w,h]</Member>
+        <Member type="Method">public static void DeleteRow(int y)</Member>
+        <Member type="Method">public static void DecreaseRow(int y)</Member>
+        <Member type="Method">public static void DecreaseRowsAbove(int y)</Member>
+        <Member type="Method">public static bool IsRowFull(int y)</Member>
+        <Member type="Method">public static void DeleteFullRows()</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>Tetrimino</Name>
         <Access>Public</Access>
         <Location left="269" top="10" />
-        <Size width="234" height="400" />
+        <Size width="234" height="417" />
         <Collapsed>False</Collapsed>
-        <Member type="Field">public float moveTime</Member>
-        <Member type="Field">float fallTime</Member>
-        <Member type="Field">public float boostTime</Member>
+        <Member type="Field">private float moveTime</Member>
+        <Member type="Field">private float originalFallRate</Member>
+        <Member type="Field">private float fallRate</Member>
+        <Member type="Field">private float fallTotal</Member>
+        <Member type="Field">private float fallProgress</Member>
+        <Member type="Field">private float boostRate</Member>
+        <Member type="Field">private float actionMargin</Member>
         <Member type="Field">bool move = true</Member>
-        <Member type="Field">public bool bottom = false</Member>
+        <Member type="Field">bool bottom = false</Member>
         <Member type="Field">public bool square = false</Member>
-        <Member type="Field">List&lt;Transform&gt; Blocks</Member>
-        <Member type="Field">Coroutine fall</Member>
-        <Member type="Method">void Start()</Member>
-        <Member type="Method">public void Fall()</Member>
-        <Member type="Method">public voidl Boost(bool b)</Member>
+        <Member type="Method">void GetValues()</Member>
+        <Member type="Method">void Fall()</Member>
         <Member type="Method">IEnumerator FallWait(float time)</Member>
         <Member type="Method">public void CheckFall()</Member>
         <Member type="Method">public void Move(int side)</Member>
