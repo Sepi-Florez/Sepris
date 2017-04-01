@@ -7,7 +7,7 @@
       <Entity type="Class">
         <Name>Grid</Name>
         <Access>Public</Access>
-        <Location left="10" top="10" />
+        <Location left="10" top="332" />
         <Size width="239" height="230" />
         <Collapsed>False</Collapsed>
         <Member type="Field">public static Grid thisGrid</Member>
@@ -24,8 +24,8 @@
       <Entity type="Class">
         <Name>Tetrimino</Name>
         <Access>Public</Access>
-        <Location left="269" top="10" />
-        <Size width="234" height="417" />
+        <Location left="377" top="319" />
+        <Size width="234" height="451" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private float moveTime</Member>
         <Member type="Field">private float originalFallRate</Member>
@@ -38,17 +38,77 @@
         <Member type="Field">bool bottom = false</Member>
         <Member type="Field">public bool square = false</Member>
         <Member type="Method">void GetValues()</Member>
+        <Member type="Method">public void Boost(bool b)</Member>
         <Member type="Method">void Fall()</Member>
         <Member type="Method">IEnumerator FallWait(float time)</Member>
-        <Member type="Method">public void CheckFall()</Member>
-        <Member type="Method">public void Move(int side)</Member>
-        <Member type="Method">public bool CheckMove(bool side)</Member>
+        <Member type="Method">void CheckFall()</Member>
+        <Member type="Method">public void Move(bool left)</Member>
+        <Member type="Method">bool CheckMove(bool left)</Member>
         <Member type="Method">IEnumerator MoveDelay(float time)</Member>
         <Member type="Method">public void Rotate()</Member>
-        <Member type="Method">public void CheckRotation()</Member>
+        <Member type="Method">void CheckRotation()</Member>
+        <Member type="Method">bool KickCheck()</Member>
+        <Member type="Method">void BecomeBottom()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>GameManager</Name>
+        <Access>Public</Access>
+        <Location left="10" top="10" />
+        <Size width="315" height="300" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public static GameManager manager</Member>
+        <Member type="Field">Tetronimo tetro</Member>
+        <Member type="Field">public Vector3[] spawnPos</Member>
+        <Member type="Field">public GameObject[] tetros</Member>
+        <Member type="Field">public float moveTime</Member>
+        <Member type="Field">public float fallRate</Member>
+        <Member type="Field">public float fallTotal</Member>
+        <Member type="Field">public float boostRate</Member>
+        <Member type="Field">public float actionMargin</Member>
+        <Member type="Field">private int next</Member>
+        <Member type="Field">public bool gameOver = false</Member>
+        <Member type="Method">public void SpawnNew()</Member>
+        <Member type="Method">void Controls()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>UIManager</Name>
+        <Access>Public</Access>
+        <Location left="10" top="580" />
+        <Size width="203" height="242" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public void UpdateNext()</Member>
+        <Member type="Method">public void UpdateScore()</Member>
+        <Member type="Method">public void GameOver()</Member>
         <Modifier>None</Modifier>
       </Entity>
     </Entities>
-    <Relationships />
+    <Relationships>
+      <Relationship type="Association" first="1" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="2" second="1">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>350</X>
+          <Y>156</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>492</X>
+          <Y>294</Y>
+        </BendPoint>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+    </Relationships>
   </ProjectItem>
 </Project>
