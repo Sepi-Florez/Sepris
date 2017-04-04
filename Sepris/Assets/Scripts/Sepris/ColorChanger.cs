@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class ColorChanger : MonoBehaviour {
     Color thisColor;
+    Image thisImage;
+    public Material thisMaterial;
 
     public Color[] colors;
     public float stepSize;
@@ -15,27 +17,30 @@ public class ColorChanger : MonoBehaviour {
     public bool rainbow = true;
      
     void Awake () {
-        if(transform.GetComponent<Image>() != null)
-            thisColor = transform.GetComponent<Image>().color;
+        if (transform.GetComponent<Image>() != null) {
+            thisImage = transform.GetComponent<Image>();
+            thisColor = thisImage.color;
+        }
         else {
-            thisColor = gameObject.GetComponent<Renderer>().material.color;
+            thisMaterial = gameObject.GetComponent<Renderer>().material;
+            thisColor = thisMaterial.color;
         }
     }
 	void Start () {
         play = StartCoroutine(Rainbow());
 	}
     void ColorSet (Color newColor) {
-        if (transform.GetComponent<Image>() != null)
-            transform.GetComponent<Image>().color = newColor;
+        if (thisImage != null)
+            thisImage.color = newColor;
         else {
-            transform.GetComponent<Material>().color = newColor;
-        }
+            thisMaterial.color = newColor;
+        } 
     }
     Color GetColor() {
         if (transform.GetComponent<Image>() != null)
             return transform.GetComponent<Image>().color;
         else {
-            return transform.GetComponent<Material>().color;
+            return transform.GetComponent<Renderer>().material.color;
         }
     }
     IEnumerator Rainbow() {

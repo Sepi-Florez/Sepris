@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour {
     }
     void Start() {
 
-        next = Random.Range(0, tetros.Length);
+        //next = Random.Range(0, tetros.Length);
         SpawnNew();
     }
     void Update() {
@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour {
     public void SpawnNew() {
         
         tetro = (Tetromino)Instantiate(tetros[next], spawnPos[Random.Range(0, spawnPos.Length)], Quaternion.identity).transform.GetChild(0).GetComponent<Tetromino>();
-        next = Random.Range(0, tetros.Length);
+        //next = Random.Range(0, tetros.Length);
         //UIManager.UI.NextUpdate(next);
     }
     // for all neccesery input

@@ -30,7 +30,6 @@ public class Tetromino : MonoBehaviour {
             if (Grid.grid[(int)blocks[a].position.x,(int)blocks[a].position.y] != null) {
                 print("Game Over");
                 GameManager.manager.gameOver = true;
-                Destroy(gameObject);
 
             }
             a++;
@@ -112,22 +111,18 @@ public class Tetromino : MonoBehaviour {
         for (int b = 0; b < blocks.Count; b++) {
             if (left) {
                 if ((int)(blocks[b].position.x - 1) < 0) {
-                    print("too far left" + blocks[b].position);
                     return false;
                 }
                 else if (Grid.grid[Convert.ToInt32(blocks[b].position.x) - 1, Convert.ToInt32(blocks[b].position.y)] != null) {
-                    print("blocked by blocks left");
                     return false;
                 }
 
             }
             else {
                 if (blocks[b].position.x + 1 > 9) {
-                    print("too far right");
                     return false;
                 }
                 else if (Grid.grid[Convert.ToInt32(blocks[b].position.x) + 1, Convert.ToInt32(blocks[b].position.y)] != null) {
-                    print("blocked by blocks right");
                     return false;
                 }
             } 
@@ -145,7 +140,6 @@ public class Tetromino : MonoBehaviour {
                 transform.Rotate(new Vector3(0, 0, 90));
                 if (!CheckRotation()) {
                     transform.Rotate(new Vector3(0, 0, -90));
-                    print("turn denied");
                 }
 
             }
@@ -203,7 +197,6 @@ public class Tetromino : MonoBehaviour {
             if (Grid.InsideBorder(v)) {     
                 if (Grid.grid[Convert.ToInt32(blocks[a].position.x), Convert.ToInt32(blocks[a].position.y)] != null) {
                     check = false;
-                    print("Kick not possible");
                 }
             }
         }

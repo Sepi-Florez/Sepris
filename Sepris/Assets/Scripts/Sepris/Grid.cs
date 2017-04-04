@@ -21,7 +21,6 @@ public class Grid : MonoBehaviour {
     }
     public static void DeleteRow(int y) {
         for (int x = 0; x < w; ++x) {
-            print("Removing " + grid[x, y].position);
             Destroy(grid[x, y].gameObject);
             grid[x, y] = null;
         }
@@ -54,12 +53,17 @@ public class Grid : MonoBehaviour {
     }
     // Check whole field for full rows
     public static void DeleteFullRows() {
+        int i = 0;
         for (int y = 0; y < h; ++y) {
             if (IsRowFull(y)) {
+                i++;
                 DeleteRow(y);
                 DecreaseRowsAbove(y + 1);
                 --y;
             }
+        }
+        if (i != 0) {
+            UIManager.thisManager.CallUpdateScore(i * 100 * i, i);
         }
     }
 
