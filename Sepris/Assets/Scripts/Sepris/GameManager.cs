@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour {
     public Vector3[] spawnPos;
     public GameObject[] tetros;
 
+    public List<GameObject> spawnedTetros = new List<GameObject>();
+
     public float moveTime;
     public float fallRate;
     public float fallTotal;
@@ -24,19 +26,24 @@ public class GameManager : MonoBehaviour {
     }
     void Start() {
 
-        //next = Random.Range(0, tetros.Length);
+        next = Random.Range(0, tetros.Length);
         SpawnNew();
     }
     void Update() {
         if(!gameOver)
             Controls();
+        else {
+            if (Input.GetButtonDown("Jump")) {
+                Restart();
+            }
+        }
     }
     // spawns a new tetronimo and also decided what shape will be next
     public void SpawnNew() {
-        
         tetro = (Tetromino)Instantiate(tetros[next], spawnPos[Random.Range(0, spawnPos.Length)], Quaternion.identity).transform.GetChild(0).GetComponent<Tetromino>();
-        //next = Random.Range(0, tetros.Length);
-        //UIManager.UI.NextUpdate(next);
+        spawnedTetros.Add(tetro.gameObject);
+        next = Random.Range(0, tetros.Length);
+        UIManager.thisManager.UpdateNext(next);
     }
     // for all neccesery input
     void Controls() {
@@ -56,5 +63,15 @@ public class GameManager : MonoBehaviour {
         else if (Input.GetButton("Right")) {
             tetro.Move(false);
         }
+    }
+    void Restart() {
+        UIManager.thisManager.Restart();
+        Grid.thisGrid.Restart();
+        for(int a = 0; a < spawnedTetros.Count; a++) {
+            Destroy(spawnedTetros[a]);
+        }
+        gameOver = false;
+        SpawnNew();
+
     }
 }

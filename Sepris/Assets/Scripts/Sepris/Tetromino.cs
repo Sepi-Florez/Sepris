@@ -30,6 +30,8 @@ public class Tetromino : MonoBehaviour {
             if (Grid.grid[(int)blocks[a].position.x,(int)blocks[a].position.y] != null) {
                 print("Game Over");
                 GameManager.manager.gameOver = true;
+                UIManager.thisManager.GameOver();
+                return;
 
             }
             a++;

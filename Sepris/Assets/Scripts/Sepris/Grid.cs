@@ -66,6 +66,9 @@ public class Grid : MonoBehaviour {
             UIManager.thisManager.CallUpdateScore(i * 100 * i, i);
         }
     }
+    public void Restart() {
+        grid = new Transform[w, h];
+    }
 
 }
 
